@@ -1,2 +1,2 @@
 # Selenium
-[Быстрый старт](python/selenium.md#быстрый-старт)
+[Быстрый старт](selenium.md#быстрый-старт)
