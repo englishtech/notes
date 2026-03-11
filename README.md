@@ -9,6 +9,9 @@ Coming soon...
 [Команды systemd для бота](linux/bot-deploy-to-vps.md#команды-systemd)  
 
 ## Python
+**Проекты**  
+[Создание виртуального окружения для проекта на компьютере](python/create_new_python_project.md#создание-виртуального-окружения-для-проекта-на-компьютере)
+
 **Библиотеки**  
 [Selenium](python/selenium.md#selenium)
 
