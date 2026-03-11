@@ -45,45 +45,108 @@ browser.quit()                                                # Закрывае
 ## Основные методы поиска
 
 ```python
+from selenium.webdriver.common.by import By
+
 # Один элемент
 element = driver.find_element(By.ID, "username")
 
 # Все элементы (возвращает список)
 elements = driver.find_elements(By.CLASS_NAME, "item")
 ```
+## Селекторы
 
+| Селектор | Синтаксис | Пример в коде | Пример в DOM |
+|----------|-----------|---------------|--------------|
+| `By.ID` | `#id` | `find_element(By.ID, "header")` | `<div id="header">...</div>` |
+| `By.CLASS_NAME` | `.class` | `find_element(By.CLASS_NAME, "btn")` | `<button class="btn">...</button>` |
+| `By.TAG_NAME` | `tag` | `find_element(By.TAG_NAME, "a")` | `<a href="...">...</a>` |
+| `By.CSS_SELECTOR` | CSS | `find_element(By.CSS_SELECTOR, "div.item")` | `<div class="item">...</div>` |
 
+## CSS-селекторы (частые случаи)
+```python
+# По классу
+".btn-primary"
 
+# По тегу и классу
+"div.item"
 
-## самый короткий и надёжный способ установить Chrome на VPS:
-# Удали Chromium из Snap
+# По атрибуту
+"[type='submit']"
+"[href='/home']"
+
+# Дочерний элемент
+"ul li"           # любой потомок
+"ul > li"         # прямой потомок
+
+# Псевдоклассы
+"p:nth-of-type(2)"   # второй <p>
+"input:first-child"  # первый дочерний
+```
+## Работа с элементами
+
+| Метод | Назначение | Пример |
+|-------|------------|--------|
+| `.click()` | Клик по элементу | `button.click()` |
+| `.text` | Текст элемента | `print(el.text)` |
+| `.get_attribute("attr")` | Значение атрибута | `el.get_attribute("href")` |
+| `.send_keys("text")` | Ввод текста | `input.send_keys("hello")` |
+| `.is_displayed()` | Видим ли элемент | `el.is_displayed()` |
+| `.is_enabled()` | Доступен ли элемент | `el.is_enabled()` |
+
+## Примеры
+```python
+# Клик по кнопке
+driver.find_element(By.ID, "submit").click()
+
+# Получить текст
+title = driver.find_element(By.TAG_NAME, "h1").text
+print(title)
+
+# Получить ссылку
+link = driver.find_element(By.CSS_SELECTOR, "a.main").get_attribute("href")
+
+# Ввести текст
+driver.find_element(By.ID, "search").send_keys("python")
+```
+
+----
+## Установка Chrome на VPS:
+Удалить Chromium из Snap
+```bash
 sudo snap remove chromium
+```
 
-# Установи Google Chrome одной командой
+Установить Google Chrome одной командой
+```bash
 sudo apt update && sudo apt install -y wget gnupg
 wget -qO- https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome-keyring.gpg
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
 sudo apt update
 sudo apt install -y google-chrome-stable
+```
 
-После этого браузер будет тут:
-/usr/bin/google-chrome
+После этого браузер будет тут: `/usr/bin/google-chrome`
 
+## Установка совместимого chromedriver под Google Chrome (версии 145.0.7632.159):
 
-Вот простая последовательность команд для установки совместимого chromedriver под Google Chrome 145.0.7632.159:
-
-# 1. Скачать chromedriver
+1. Скачать chromedriver
+```bash
 wget -O /tmp/chromedriver.zip https://storage.googleapis.com/chrome-for-testing-public/145.0.7632.159/linux64/chromedriver-linux64.zip
-
-# 2. Распаковать
+```
+2. Распаковать
+```bash
 unzip /tmp/chromedriver.zip -d /tmp
-
-# 3. Установить в систему
+```
+3. Установить в систему
+```bash
 sudo mv /tmp/chromedriver-linux64/chromedriver /usr/bin/
-
-# 4. Сделать исполняемым
+```
+4. Сделать исполняемым
+```bash
 sudo chmod +x /usr/local/chromedriver
-
-# 5. Проверить
+```
+5. Проверить
+```bash
 /usr/local/chromedriver --version
+```
 
