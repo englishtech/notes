@@ -14,6 +14,7 @@ def get_db_connection():
 > Если файл базы данных будет находится в другой папке, путь можно указать, например:  
 > `DB_PATH = Path(__file__).parent.parent / "database" / "mydatabase.db"`
 
+
 ## Создание файла БД
 ```python
 def init_db(): 
@@ -36,9 +37,12 @@ def init_db():
 > Столбец id: целое число, первичный ключ, автоинкремент  
 > Столбец user_id: целое число, обязательное поле  
 > Столбец data: текст, обязательное поле  
-> Столбец updated_at: время, по умолчанию текущее  
+> Столбец updated_at: время, по умолчанию текущее
+> 
 > conn.commit() - нужно при создании БД. При дальнейшем сохранении/чтении данных контекстный менеджер `with ...` делает commit сам.
+> conn.close()  - не нужно в контекстном менеджере.
 
+ 
 ## Пример функции записи данных в БД SQLite
 ```python
 def add_record(user_id, data):
@@ -79,8 +83,8 @@ def get_records(user_id):
         return cursor.fetchall()
 ```
 
-## Объекты и методы
 
+## Объекты и методы
 | Элемент | Описание | Пример |
 |---------|----------|--------|
 | `conn` | Соединение с базой данных | `conn = sqlite3.connect('db.db')` |
@@ -93,8 +97,8 @@ def get_records(user_id):
 
 ---
 
-## SQL — основные команды
 
+## SQL — основные команды
 | Команда | Описание | Пример |
 |---------|----------|--------|
 | `SELECT` | Выбрать данные | `SELECT name FROM users` |
@@ -107,12 +111,11 @@ def get_records(user_id):
 
 ---
 
-## Вопросительные знаки `?`
 
+## Вопросительные знаки `?`
 **Зачем нужны:**
 - Защита от SQL-инъекций
 - Автоматическое экранирование значений
-
 **Как использовать:**
 ```python
 # ❌ Плохо (уязвимо к инъекциям)
@@ -120,3 +123,34 @@ cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
 
 # ✅ Хорошо (безопасно)
 cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+```
+
+
+## Примеры запросов
+```python
+# Чтение всех записей
+cursor.execute("SELECT * FROM users")
+all_users = cursor.fetchall()
+
+# Чтение одной записи
+cursor.execute("SELECT * FROM users WHERE id = ?", (1,))
+user = cursor.fetchone()
+
+# Вставка записи
+cursor.execute(
+    "INSERT INTO users (name, age) VALUES (?, ?)",
+    ("Alice", 30)
+)
+conn.commit()
+
+# Обновление записи
+cursor.execute(
+    "UPDATE users SET age = ? WHERE name = ?",
+    (31, "Alice")
+)
+conn.commit()
+
+# Удаление записи
+cursor.execute("DELETE FROM users WHERE id = ?", (1,))
+conn.commit()
+```
