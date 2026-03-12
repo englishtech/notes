@@ -9,14 +9,14 @@ def get_db_connection():
 ```
 > Если файл базы данных будет находится в другой папке, путь можно указать, например:  
 > `DB_PATH = Path(__file__).parent.parent / "database" / "mydatabase.db"`  
-- Создать файла БД:
+- Создать файл БД:
 ```python
-def init_db():
-    """
+def init_db(): 
+    """ 
     Аннотация
     """
-    with get_db_connection() as conn:
-        cursor = conn.cursor()
+    with get_db_connection() as conn:                              # Открываем соединение с БД (автоматически закроется)
+        cursor = conn.cursor()                                     # Создаём курсор для выполнения SQL-запросов
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS название (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -25,5 +25,11 @@ def init_db():
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             )
         ''')
-        conn.commit()
+        conn.commit()                                              # Сохраняем изменения в базе данных
 ```
+> SQL-запрос создает таблицу, если ее еще нет.  
+> Столбец id: целое число, первичный ключ, автоинкремент  
+> Столбец user_id: целое число, обязательное поле  
+> Столбец data: текст, обязательное поле  
+> Столбец updated_at: время, по умолчанию текущее  
+> conn.commit() - нужно при создании БД. При дальнейшем сохранении/чтении данных контекстный менеджер `with ...` делает commit сам.
