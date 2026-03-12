@@ -1,5 +1,9 @@
-## Создание базы данных SQLite
+# Создание базы данных SQLite
 
+- Установить и импортировать библиотеку:
+```python
+import sqlite3
+```
 - Лучше создать отдельную функцию для подключения к БД, например:
 ```python
 def get_db_connection():
@@ -8,8 +12,9 @@ def get_db_connection():
     return conn
 ```
 > Если файл базы данных будет находится в другой папке, путь можно указать, например:  
-> `DB_PATH = Path(__file__).parent.parent / "database" / "mydatabase.db"`  
-- Создать файл БД:
+> `DB_PATH = Path(__file__).parent.parent / "database" / "mydatabase.db"`
+
+## Создание файла БД
 ```python
 def init_db(): 
     """ 
@@ -33,3 +38,85 @@ def init_db():
 > Столбец data: текст, обязательное поле  
 > Столбец updated_at: время, по умолчанию текущее  
 > conn.commit() - нужно при создании БД. При дальнейшем сохранении/чтении данных контекстный менеджер `with ...` делает commit сам.
+
+## Пример функции записи данных в БД SQLite
+```python
+def add_record(user_id, data):
+    """
+    Записывает данные в таблицу
+    
+    Аргументы:
+        user_id: ID пользователя
+        data: данные для сохранения (строка)
+    """
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            'INSERT INTO название (user_id, data) VALUES (?, ?)',
+            (user_id, data)
+        )
+        conn.commit()
+```
+
+## Пример функции чтения данных из БД SQLite
+```python
+def get_records(user_id):
+    """
+    Читает все записи пользователя из таблицы
+    
+    Аргументы:
+        user_id: ID пользователя
+    
+    Возвращает:
+        Список кортежей с записями
+    """
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute(
+            'SELECT * FROM название WHERE user_id = ?',
+            (user_id,)
+        )
+        return cursor.fetchall()
+```
+
+## Объекты и методы
+
+| Элемент | Описание | Пример |
+|---------|----------|--------|
+| `conn` | Соединение с базой данных | `conn = sqlite3.connect('db.db')` |
+| `cursor` | Объект для выполнения SQL-запросов | `cursor = conn.cursor()` |
+| `cursor.execute(sql)` | Выполнить один запрос | `cursor.execute('SELECT * FROM table')` |
+| `cursor.fetchall()` | Получить все строки результата | `rows = cursor.fetchall()` |
+| `cursor.fetchone()` | Получить одну строку результата | `row = cursor.fetchone()` |
+| `conn.commit()` | Сохранить изменения в БД | `conn.commit()` |
+| `conn.close()` | Закрыть соединение | `conn.close()` |
+
+---
+
+## SQL — основные команды
+
+| Команда | Описание | Пример |
+|---------|----------|--------|
+| `SELECT` | Выбрать данные | `SELECT name FROM users` |
+| `FROM` | Из какой таблицы | `SELECT * FROM users` |
+| `WHERE` | Условие фильтрации | `SELECT * FROM users WHERE id = 1` |
+| `INSERT INTO` | Добавить запись | `INSERT INTO users (name) VALUES ('John')` |
+| `UPDATE` | Обновить запись | `UPDATE users SET name = 'Jane' WHERE id = 1` |
+| `DELETE FROM` | Удалить запись | `DELETE FROM users WHERE id = 1` |
+| `CREATE TABLE` | Создать таблицу | `CREATE TABLE users (id INTEGER, name TEXT)` |
+
+---
+
+## Вопросительные знаки `?`
+
+**Зачем нужны:**
+- Защита от SQL-инъекций
+- Автоматическое экранирование значений
+
+**Как использовать:**
+```python
+# ❌ Плохо (уязвимо к инъекциям)
+cursor.execute(f"SELECT * FROM users WHERE id = {user_id}")
+
+# ✅ Хорошо (безопасно)
+cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
