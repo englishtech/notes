@@ -90,8 +90,9 @@ def get_records(user_id):
 | `conn` | Соединение с базой данных | `conn = sqlite3.connect('db.db')` |
 | `cursor` | Объект для выполнения SQL-запросов | `cursor = conn.cursor()` |
 | `cursor.execute(sql)` | Выполнить один запрос | `cursor.execute('SELECT * FROM table')` |
-| `cursor.fetchall()` | Получить все строки результата | `rows = cursor.fetchall()` |
-| `cursor.fetchone()` | Получить одну строку результата | `row = cursor.fetchone()` |
+| `cursor.fetchall()` | Получить все строки результата в виде списка кортежей `[(1, 'John'), (2, 'Jane')]` | `rows = cursor.fetchall()` |
+| `cursor.fetchone()` | Получить одну строку результата в виде кортежа `(1, 'John')` или `None` | `row = cursor.fetchone()` |
+| `cursor.fetchmany(n)` | Получить `n` строк в виде списка кортежей `[(1, 'John'), (2, 'Jane')]` | `rows = cursor.fetchmany(n)` |
 | `conn.commit()` | Сохранить изменения в БД | `conn.commit()` |
 | `conn.close()` | Закрыть соединение | `conn.close()` |
 
@@ -135,6 +136,11 @@ all_users = cursor.fetchall()
 # Чтение одной записи
 cursor.execute("SELECT * FROM users WHERE id = ?", (1,))
 user = cursor.fetchone()
+
+# Получить все значения столбца data для пользователя
+cursor.execute("SELECT data FROM название WHERE user_id = ?", (user_id,))
+# Каждая строка — кортеж (значение,), извлекаем первое значение
+return [row[0] for row in cursor.fetchall()]
 
 # Вставка записи
 cursor.execute(
