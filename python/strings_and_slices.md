@@ -28,6 +28,12 @@
 | `.isspace()` | Только пробелы | `"  ".isspace()` → `True` |
 | `.isupper()` | В верхнем регистре | `"ПРИВЕТ".isupper()` → `True` |
 | `.islower()` | В нижнем регистре | `"привет".islower()` → `True` |
+| `.istitle()` | Все слова начинаются с заглавной буквы | `"Привет Мир".istitle()` → `True` |
+| `.isdecimal()` | Только десятичные цифры (0-9) | `"123".isdecimal()` → `True` |
+| `.isnumeric()` | Числовые символы (цифры, дроби, римские) | `"½".isnumeric()` → `True` |
+| `.isidentifier()` | Допустимое имя переменной в Python | `"my_var".isidentifier()` → `True` |
+| `.isascii()` | Только символы ASCII | `"hello".isascii()` → `True` |
+| `.isprintable()` | Все символы печатаемые (не `\n`, `\t`) | `"текст".isprintable()` → `True` |
 | `.center(width)` | Центрировать | `"х".center(5)` → `"  х  "` |
 | `.ljust(width)` | Выровнять влево | `"х".ljust(5)` → `"х    "` |
 | `.rjust(width)` | Выровнять вправо | `"х".rjust(5)` → `"    х"` |
