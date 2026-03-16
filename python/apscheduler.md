@@ -113,7 +113,7 @@ scheduler.add_job(
 
 # Хранение задач APScheduler в БД с помощью SQLAlchemy
 Установить: `pip install sqlalchemy`  
-Если нужно прокидывать объект Scheduler между модулями, лучше создать отдельный модуль, например, `init_scheduler.py`:
+Если нужно прокидывать объект scheduler между модулями, лучше создать отдельный модуль, чтобы избежать параллельного импорта, например, `init_scheduler.py`:
 ```python
 from pathlib import Path
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -128,4 +128,25 @@ def init_scheduler():
     url = f"sqlite:///{db_path.absolute()}"
     jobstore = {'default': SQLAlchemyJobStore(url=url)}
     scheduler = AsyncIOScheduler(jobstores=jobstore)
+```
+В точке входа, например, `main.py`, импортировать эту функцию для создания объекта scheduler:
+```python
+from путь.init_scheduler.py import init_scheduler
+
+async def main():
+    try:
+        scheduler.start()                        # Запустить scheduler
+        # основной цикл, например, await dp.start_polling(bot)
+    finally:
+        scheduler.shutdown()                     # Остановить scheduler, заверщшить задачи, очистить память
+
+if __name__ == '__main__':
+    init_scheduler()                             # Создать объект scheduler
+    from путь.init_scheduler.py import scheduler # Импортировать объект scheduler из модуля, где он создан
+    asyncio.run(main())
+
+```
+Если объект scheduler нужен в других модулях, например, `services.py` - импортируем его:
+```python
+from путь.init_scheduler.py import scheduler # Импортировать объект scheduler из модуля, где он создан
 ```
