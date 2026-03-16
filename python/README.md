@@ -7,6 +7,11 @@
 [Создание git в проекте (Python)](../git/creating_git_in_project.md#создание-git-в-проекте-python)
 
 ## Библиотеки
+**APScheduler**  
+[Создание объекта планировщика](apscheduler.md#apscheduler)  
+[Основные методы](apscheduler.md#основные-методы)  
+[Хранение задач APScheduler в БД с помощью SQLAlchemy](apscheduler.md#хранение-задач-apscheduler-в-бд-с-помощью-sqlalchemy)  
+
 **Selenium**  
 [Быстрый старт](selenium.md#быстрый-старт)  
 [Селекторы](selenium.md#селекторы)  
