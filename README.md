@@ -16,7 +16,10 @@
 [Создание виртуального окружения для проекта на компьютере](python/create_new_python_project.md#создание-виртуального-окружения-для-проекта-на-компьютере)
 
 **Библиотеки**  
-[Selenium](python/selenium.md#selenium)
+[APScheduler](python/apscheduler.md#apscheduler)  
+[Selenium](python/selenium.md#selenium)  
+[SQLite](python/create_sqlite_database.md#создание-базы-данных-sqlite)  
+
 
 
 ## VPS
