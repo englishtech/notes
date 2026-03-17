@@ -137,3 +137,46 @@ if submit:
     else:
         st.error("Неверный логин или пароль")
 ```
+
+---
+
+## Sidebar (боковая панель)
+
+Боковое меню для размещения настроек, навигации и второстепенных элементов.
+
+```python
+import streamlit as st
+
+# Элементы в сайдбаре
+st.sidebar.title("Настройки")
+theme = st.sidebar.selectbox("Тема", ["Светлая", "Тёмная"])
+show_data = st.sidebar.checkbox("Показать данные")
+
+# Основной контент
+st.title("Моё приложение")
+
+if show_data:
+    st.write(f"Выбранная тема: {theme}")
+```
+
+---
+
+## Columns (колонки)
+**`st.columns()`** — разбивает страницу на колонки для размещения элементов рядом.
+
+## Синтаксис
+```python
+import streamlit as st
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.header("Левая колонка")
+    st.write("Текст в первой колонке")
+    st.button("Кнопка 1")
+
+with col2:
+    st.header("Правая колонка")
+    st.write("Текст во второй колонке")
+    st.button("Кнопка 2")
+```
