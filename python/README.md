@@ -18,6 +18,9 @@
 [Методы для элементов](selenium.md#работа-с-элементами)  
 [Примеры](selenium.md#примеры)  
 
+**Streamlit**  
+[Streamlit — создание веб-интерфейсов на Python](streamlit.md#streamlit--создание-веб-интерфейсов-на-python)  
+
 **sqlite3**  
 [Создание базы данных SQLite](create_sqlite_database.md#создание-базы-данных-sqlite)  
 [SQL — основные команды](create_sqlite_database.md#sql--основные-команды)
