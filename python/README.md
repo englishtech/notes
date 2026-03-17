@@ -21,6 +21,6 @@
 **Streamlit**  
 [Streamlit — создание веб-интерфейсов на Python](streamlit.md#streamlit--создание-веб-интерфейсов-на-python)  
 
-**sqlite3**  
+**SQLite3**  
 [Создание базы данных SQLite](create_sqlite_database.md#создание-базы-данных-sqlite)  
 [SQL — основные команды](create_sqlite_database.md#sql--основные-команды)
