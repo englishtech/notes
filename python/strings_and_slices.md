@@ -66,3 +66,37 @@ print(s[0])      # "п"
 print(s[-1])     # "т"
 print(s[1:4])    # "рив"
 print(s[::-1])   # "тевирп"
+```
+
+---
+
+## `str.maketrans()` и `translate()`
+| Метод | Назначение |
+|-------|------------|
+| `str.maketrans()` | Создаёт таблицу перевода (какие символы заменить/удалить) |
+| `s.translate(table)` | Применяет таблицу к строке |
+
+### Главное отличие от `.replace()`
+- `.replace()` — работает с **подстроками**
+- `.translate()` — работает **посимвольно**
+
+### 1. Замена символов
+```python
+table = str.maketrans('aeiou', '12345')
+"apple".translate(table)  # "1ppl2"
+```
+### 2. Удаление символов
+```python
+table = str.maketrans('', '', '!?.')
+"Привет!".translate(table)  # "Привет"
+```
+### 3. Замена + удаление
+```python
+table = str.maketrans('abc', 'XYZ', '123')
+"a1b2c3".translate(table)  # "XYZ"
+```
+### 4. Через словарь
+```python
+table = str.maketrans({'а': 'a', 'б': 'b', '!': None})
+"аб!".translate(table)  # "ab"
+```
