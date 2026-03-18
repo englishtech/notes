@@ -97,6 +97,6 @@ table = str.maketrans('abc', 'XYZ', '123')
 ```
 ### 4. Через словарь
 ```python
-table = str.maketrans({'а': 'a', 'б': 'b', '!': None})
-"аб!".translate(table)  # "ab"
+table = str.maketrans({'ё': 'yo', 'ж': 'zh', '!': None})
+"ёж!".translate(table)  # "yozh"
 ```
