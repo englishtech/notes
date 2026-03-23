@@ -19,7 +19,7 @@
 [APScheduler](python/apscheduler.md#apscheduler)  
 [Selenium](python/selenium.md#selenium)  
 [SQLite](python/create_sqlite_database.md#создание-базы-данных-sqlite)  
-
+[Streamlit](python/streamlit.md#streamlit--создание-веб-интерфейсов-на-python)  
 
 
 ## VPS
