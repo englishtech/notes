@@ -1,4 +1,5 @@
 # Notes
+*"I can't forget, by I don't remember what."*
 ## [Git](git/README.md)
 [Создание git в проекте (Python)](git/creating_git_in_project.md#создание-git-в-проекте-python)
 
