@@ -180,3 +180,40 @@ with col2:
     st.write("Текст во второй колонке")
     st.button("Кнопка 2")
 ```
+---
+
+## `st.query_params` 
+Это объект в Streamlit для получения параметров из URL-адреса. Позволяет читать параметры из строки запроса (query string) URL.
+
+### Пример URL
+
+```
+https://yourapp.com?user_id=123456&mode=edit
+```
+
+### Использование
+```python
+import streamlit as st
+
+# Получить все параметры
+params = st.query_params
+print(params)  # {'user_id': ['123456'], 'mode': ['edit']}
+# Получить конкретный параметр
+user_id = st.query_params.get("user_id", None)
+mode = st.query_params.get("mode", None)
+print(user_id)  # '123456'
+print(mode)     # 'edit'
+```
+
+### Установка параметров
+Можно и устанавливать параметры:
+
+```python
+# Установить параметр
+st.query_params["user_id"] = "123456"
+# URL станет: ?user_id=123456
+# Удалить параметр
+del st.query_params["user_id"]
+# Очистить все параметры
+st.query_params.clear()
+```
