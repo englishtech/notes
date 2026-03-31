@@ -22,6 +22,8 @@
 [SQLite](python/create_sqlite_database.md#создание-базы-данных-sqlite)  
 [Streamlit](python/streamlit.md#streamlit--создание-веб-интерфейсов-на-python)  
 
+## Cheatsheets
+[Markdown](cheatsheets/markdown.md#шпаргалка-по-markdown)
 
 ## VPS
 Coming soon...
