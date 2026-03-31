@@ -4,6 +4,7 @@
 Словари  
 
 ## Родные библиотеки
+[io](io.md#io) (работа с потоками данных)   
 time | datetime  
 string  
 pathlib  
