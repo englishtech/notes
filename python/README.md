@@ -4,11 +4,13 @@
 Словари  
 
 ## Родные библиотеки
-[io](io.md#io) (работа с потоками данных)   
-time | datetime  
-string  
-pathlib  
-logging  
+| Название | Предназначение |
+|-------------|-------------|
+| [io](io.md#io) | Работа с потоками данных |
+| time & datetime |  |
+| string |  | 
+| pathlib |  |
+| logging |  |
 
 ## Неродные библиотеки
 aiogram  
