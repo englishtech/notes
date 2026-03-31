@@ -15,7 +15,9 @@
 ## Неродные библиотеки
 aiogram  
 environs | dotenv  
-openpyxl
+openpyxl  
+PIL  
+
 #### APScheduler  
 [Создание объекта планировщика](apscheduler.md#apscheduler) | [Основные методы](apscheduler.md#основные-методы) | [Хранение задач APScheduler в БД с помощью SQLAlchemy](apscheduler.md#хранение-задач-apscheduler-в-бд-с-помощью-sqlalchemy)  
 
