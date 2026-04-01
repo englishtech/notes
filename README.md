@@ -1,8 +1,8 @@
 # Notes
 *"I can't forget, by I don't remember what."*
 ## [Git](git/README.md)
-[Создание git в проекте (Python)](git/creating_git_in_project.md#создание-git-в-проекте-python)
-
+[Создание git в проекте (Python)](git/creating_git_in_project.md#создание-git-в-проекте-python)  
+[Git Alias: Быстрый коммит и пуш одной командой](cheatsheets/git-alias-cheatsheet.md#git-alias-быстрый-коммит-и-пуш-одной-командой)
 
 ## [Linux](linux/README.md)
 **Развертывание проекта (бота) на VPS-сервере**  
