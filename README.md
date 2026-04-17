@@ -23,6 +23,7 @@
 [Streamlit](python/streamlit.md#streamlit--создание-веб-интерфейсов-на-python)  
 
 ## Cheatsheets
+[Network](cheatsheets/network_terms.md#-сетевая-шпаргалка)  
 [Markdown](cheatsheets/markdown.md#шпаргалка-по-markdown)
 
 ## VPS
