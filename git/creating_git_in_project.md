@@ -15,6 +15,10 @@ git init
 ```
 > Слэши в unix-стиле: `/`
 
+Создать файл `requirements.txt` со всеми зависимостями проекта: 
+```bash
+pip freeze > requirements.txt
+```
 Создать репозиторий на github.com (https://github.com/new)  
 Связать локальный и удаленный репозиторий. Подключение к github.com уже должно быть настроено. Для подключения по ssh:
 ```bash
