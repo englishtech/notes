@@ -12,6 +12,9 @@
 | string |  | 
 | pathlib |  |
 | logging |  |
+| re |  |
+| html |  |
+
 
 ## Неродные библиотеки
 aiogram  
