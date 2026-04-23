@@ -3,5 +3,6 @@
 [Загрузка файлов проекта на VPS-сервер](bot-deploy-to-vps.md#загрузка-файлов-проекта-на-vps-сервер)  
 [Запуск проекта на VPS-сервере](bot-deploy-to-vps.md#деплой-проекта-на-vps-сервере)  
 [Команды systemd для бота](bot-deploy-to-vps.md#команды-systemd)  
+[Планировщик cron](cron_basics.md#cron)   
 
 Coming soon...
