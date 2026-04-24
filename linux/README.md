@@ -4,5 +4,6 @@
 [Запуск проекта на VPS-сервере](bot-deploy-to-vps.md#деплой-проекта-на-vps-сервере)  
 [Команды systemd для бота](bot-deploy-to-vps.md#команды-systemd)  
 [Планировщик cron](cron_basics.md#cron)   
+[Фаервол ufw](ufw.md#%EF%B8%8F-ufw-краткая-шпаргалка)   
 
-Coming soon...
+...
