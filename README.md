@@ -1,4 +1,3 @@
-# Notes
 *"I can't forget, by I don't remember what."*
 ## [Git](git/README.md)
 [Создание git в проекте (Python)](git/creating_git_in_project.md#создание-git-в-проекте-python)  
@@ -25,7 +24,8 @@
 ## Cheatsheets
 [Network](cheatsheets/network_terms.md#-сетевая-шпаргалка)  
 [Markdown](cheatsheets/markdown.md#шпаргалка-по-markdown)  
-[GIT Alias](cheatsheets/git-alias-cheatsheet.md#git-alias-быстрый-коммит-и-пуш-одной-командой)
+[GIT Alias](cheatsheets/git-alias-cheatsheet.md#git-alias-быстрый-коммит-и-пуш-одной-командой)  
+[GIT Conventional Commits](cheatsheets/conventional-commits-cheatsheet.md#conventional-commits-cheatsheet)  
 
 ## VPS
 Yet to come...
