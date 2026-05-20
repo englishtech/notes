@@ -24,7 +24,8 @@
 
 ## Cheatsheets
 [Network](cheatsheets/network_terms.md#-сетевая-шпаргалка)  
-[Markdown](cheatsheets/markdown.md#шпаргалка-по-markdown)
+[Markdown](cheatsheets/markdown.md#шпаргалка-по-markdown)  
+[GIT Alias](cheatsheets/git-alias-cheatsheet.md#git-alias-быстрый-коммит-и-пуш-одной-командой)
 
 ## VPS
 Yet to come...
