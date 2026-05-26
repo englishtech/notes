@@ -27,11 +27,13 @@ options.add_argument(                                       # Подменяет
 options.binary_location = r"C:\Program Files\BraveSoftware\Brave-Browser\Application\brave.exe"
 # options.page_load_strategy = 'eager'                      # Ждёт только готовности DOM (без картинок и ресурсов), быстрее
 service = Service(ChromeDriverManager().install())          # Скачивает/находит в кэше chromedriver, создаёт сервис
-
+                                                            # Если древний Chrome, можно самому скачать под него драйвер:
+                                                            # https://www.chromedriverdownload.com/en и использовать:
+                                                            # service = Service(executable_path="/./chromedriver.exe")
 # для Google Chrome на VPS:
 # options.binary_location = "/usr/bin/google-chrome"
 # service = Service(executable_path="/usr/lib/chromium-browser/chromedriver")
-
+ 
 browser = webdriver.Chrome(service=service, options=options)  # Запускает браузер с настройками
 # Чтобы браузер сам закрывался, можно через менеджер контекста:
 # with webdriver.Chrome(service=service, options=chrome_options) as browser:
