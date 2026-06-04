@@ -345,3 +345,129 @@ async def get_tasks():
 - `name: str = Field(..., min_length=2)` — обязательное с валидацией
 - Если имя аргумента **в пути `{}`** → Path, **нет в пути** → Query, **тип — Pydantic-модель** → Body.
 
+## 7. HTTP-статусы и модуль status
+
+HTTP-статусы — это трёхзначные коды, которыми сервер сообщает клиенту результат запроса. Они делятся на классы: 2xx (успех), 4xx (ошибка клиента), 5xx (ошибка сервера). В FastAPI статус успешного ответа задаётся параметром `status_code` в декораторе, а вместо «магических чисел» рекомендуется использовать именованные константы из модуля `fastapi.status`.
+
+- **2xx (200, 201, 204)** — успешные ответы: OK, Created, No Content.
+- **4xx (400, 401, 403, 404, 422)** — ошибки клиента: плохой запрос, нет авторизации, доступ запрещён, не найдено, ошибка валидации.
+- **5xx (500, 502, 503)** — ошибки сервера: внутренняя поломка, перегрузка.
+- **status_code** — параметр декоратора, задающий код успешного ответа.
+- **HTTPException** — исключение для ручного возврата ошибок с нужным статусом.
+- **Магические числа** — «голые» цифры в коде, которые трудно понять без контекста.
+
+```python
+from fastapi import FastAPI, status, HTTPException
+
+app = FastAPI()
+tasks: list[dict] = []
+
+# POST: успешное создание → 201 Created
+# Тело запроса — обычный словарь (без Pydantic-схемы)
+@app.post("/tasks", status_code=status.HTTP_201_CREATED)
+async def create_task(task: dict):
+    task["id"] = len(tasks) + 1
+    tasks.append(task)
+    return task
+
+# GET: поиск задачи с обработкой ошибки 404
+@app.get("/tasks/{task_id}")
+async def get_task(task_id: int):
+    for task in tasks:
+        if task["id"] == task_id:
+            return task
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Задача не найдена"
+    )
+
+# DELETE: успешное удаление → 204 No Content (без тела ответа)
+@app.delete("/tasks/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_task(task_id: int):
+    for i, task in enumerate(tasks):
+        if task["id"] == task_id:
+            del tasks[i]
+            return None
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail="Задача не найдена"
+    )
+```
+
+**Шпаргалка по статусам:**
+
+| Код | Константа | Когда использовать |
+|-----|-----------|-------------------|
+| 200 | `HTTP_200_OK` | GET, PUT, PATCH — по умолчанию |
+| 201 | `HTTP_201_CREATED` | POST — создание ресурса |
+| 204 | `HTTP_204_NO_CONTENT` | DELETE — удаление без ответа |
+| 400 | `HTTP_400_BAD_REQUEST` | Логическая ошибка в данных |
+| 401 | `HTTP_401_UNAUTHORIZED` | Не авторизован (нет токена) |
+| 403 | `HTTP_403_FORBIDDEN` | Доступ запрещён (мало прав) |
+| 404 | `HTTP_404_NOT_FOUND` | Ресурс не найден |
+| 422 | `HTTP_422_UNPROCESSABLE_ENTITY` | Ошибка валидации Pydantic (автоматически) |
+| 500 | `HTTP_500_INTERNAL_SERVER_ERROR` | Внутренняя ошибка сервера |
+
+## 8. Обработка ошибок (HTTPException)
+
+Ошибки нельзя возвращать через `return` (это даст статус 200 OK). Для прерывания выполнения и возврата корректного HTTP-статуса используется `raise HTTPException`. FastAPI автоматически формирует JSON-ответ со стандартным ключом `detail`.
+
+- **`raise`** — оператор Python, мгновенно останавливающий функцию.
+- **`HTTPException`** — класс FastAPI для возврата HTTP-ошибки с кодом и сообщением.
+- **`detail`** — стандартный ключ в JSON-ответе ошибки, содержащий описание проблемы.
+
+```python
+from fastapi import FastAPI, HTTPException, status
+
+app = FastAPI()
+tasks = [{"id": 1, "name": "Тест"}]
+
+@app.get("/tasks/{task_id}")
+async def get_task(task_id: int):
+    for task in tasks:
+        if task["id"] == task_id:
+            return task  # ✅ Успех: вернёт задачу и статус 200
+    
+    # ❌ Прерываем выполнение, возвращаем 404
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Задача с ID {task_id} не найдена"
+    )
+```
+
+## 9. PUT vs PATCH, метод DELETE и статус 204
+
+Метод **PUT** предполагает полную замену ресурса (все поля обязательны, недостающие затираются), тогда как **PATCH** используется для точечного, частичного обновления только переданных полей. Метод **DELETE** удаляет ресурс по идентификатору в URL без тела запроса. Стандартным успешным ответом для удаления является статус **204 No Content**, который подразумевает пустое тело ответа. GET и DELETE являются идемпотентными операциями (повторный вызов не меняет результат), в отличие от POST.
+
+- **PUT** — полная перезапись объекта. Если не передать поле, оно будет удалено/обнулено.
+- **PATCH** — частичное обновление. Меняются только те поля, которые пришли в запросе.
+- **Идемпотентность** — свойство операции, при котором многократное выполнение дает тот же результат, что и однократное (GET, DELETE, PUT — идемпотентны; POST — нет).
+- **Soft Delete** — «мягкое» удаление: запись не стирается физически, а помечается флагом (например, `is_deleted=True`).
+- **204 No Content** — успешный HTTP-статус, означающий, что сервер выполнил запрос, но возвращать данные нечего (пустой Body).
+
+```python
+from fastapi import FastAPI, HTTPException, status
+
+app = FastAPI()
+tasks = [{"id": 1, "name": "Купить хлеб", "is_done": False}]
+
+# 💡 PUT vs PATCH (концепция):
+# При PUT {"name": "Молоко"} поле is_done затрется (станет null).
+# При PATCH {"name": "Молоко"} поле is_done останется False.
+
+# ✅ DELETE: Удаление ресурса по ID из пути
+@app.delete("/tasks/{task_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_task(task_id: int):
+    for index, task in enumerate(tasks):
+        if task["id"] == task_id:
+            tasks.pop(index)  # Физическое удаление из списка
+            return None       # Возврат None обеспечивает пустое тело ответа (204)
+    
+    # Если цикл завершился, а совпадений нет
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Задача с ID {task_id} не найдена"
+    )
+```
+
+> **Важно:** При статусе `204` тело ответа должно быть пустым. Если вернуть словарь `{"msg": "ok"}`, некоторые клиенты могут проигнорировать его или выдать ошибку парсинга, так как стандарт HTTP запрещает Body для 204.
