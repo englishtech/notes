@@ -25,6 +25,9 @@ PIL
 #### APScheduler  
 [Создание объекта планировщика](apscheduler.md#apscheduler) | [Основные методы](apscheduler.md#основные-методы) | [Хранение задач APScheduler в БД с помощью SQLAlchemy](apscheduler.md#хранение-задач-apscheduler-в-бд-с-помощью-sqlalchemy)  
 
+#### FastAPI    
+[Фреймворк для веб-приложений](fastapi.md#1-основы-web-и-http)  
+
 #### Selenium
 [Быстрый старт](selenium.md#быстрый-старт) | [Селекторы](selenium.md#селекторы) | [Методы для элементов](selenium.md#работа-с-элементами) | [Примеры](selenium.md#примеры)  
 
