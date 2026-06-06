@@ -472,3 +472,82 @@ async def delete_task(task_id: int):
 ```
 
 > **Важно:** При статусе `204` тело ответа должно быть пустым. Если вернуть словарь `{"msg": "ok"}`, некоторые клиенты могут проигнорировать его или выдать ошибку парсинга, так как стандарт HTTP запрещает Body для 204.
+
+## 10. Декомпозиция проекта — APIRouter и пакеты
+
+При росте проекта один `main.py` превращается в «спагетти-код». FastAPI решает это через `APIRouter` — «мини-приложение», которое группирует эндпоинты с общим префиксом и тегами. Файлы раскладываются по папкам-пакетам (`routers/`, `schemas/`), помеченным `__init__.py`. Импорты становятся точечными (`from schemas.task import ...`), а архитектура строится по принципу однонаправленных зависимостей: **схемы → роутеры → main**.
+
+- **APIRouter** — класс для группировки эндпоинтов в отдельном файле (аналог `FastAPI`, но без запуска сервера).
+- **prefix** — общий префикс путей роутера (например, `/tasks`), приклеивается ко всем его эндпоинтам.
+- **tags** — список тегов для группировки эндпоинтов в Swagger UI.
+- **include_router()** — метод `app`, подключающий роутер к основному приложению.
+- **Пакет (Package)** — папка с файлом `__init__.py`, которую Python распознаёт как модуль для импорта.
+- **`__init__.py`** — маркер пакета (обычно пустой файл). Без него импорт из папки невозможен.
+- **Абсолютный импорт** — путь от корня проекта: `from routers.task import router`.
+- **Круговая зависимость (Circular Import)** — ошибка, когда два файла импортируют друг друга. Решается разделением на уровни.
+
+```
+my_fastapi_project/
+├── main.py                 # Точка входа
+├── routers/
+│   ├── __init__.py         # Пустой файл-маркер
+│   └── task.py             # Роутер задач
+└── schemas/
+    ├── __init__.py         # Пустой файл-маркер
+    └── task.py             # Pydantic-схемы
+```
+
+```python
+# ===== schemas/task.py =====
+# Нижний уровень: знает только о Pydantic, ни о чём больше
+from pydantic import BaseModel
+
+class STaskAdd(BaseModel):
+    name: str
+    description: str | None = None
+
+class STask(STaskAdd):
+    id: int
+
+
+# ===== routers/task.py =====
+# Средний уровень: знает о схемах, но НЕ знает о main
+from fastapi import APIRouter, HTTPException, status
+from schemas.task import STaskAdd, STask   # ← абсолютный импорт
+
+router = APIRouter(prefix="/tasks", tags=["Задачи"])
+tasks: list[dict] = []
+
+@router.post("", response_model=STask, status_code=status.HTTP_201_CREATED)
+async def create_task(task: STaskAdd):
+    task_dict = task.model_dump()
+    task_dict["id"] = len(tasks) + 1
+    tasks.append(task_dict)
+    return task_dict
+
+@router.get("/{task_id}", response_model=STask)
+async def get_task(task_id: int):
+    for task in tasks:
+        if task["id"] == task_id:
+            return task
+    raise HTTPException(status_code=404, detail="Задача не найдена")
+
+
+# ===== main.py =====
+# Верхний уровень: знает обо всех, но никто не знает о нём
+from fastapi import FastAPI
+from routers.task import router as tasks_router   # ← абсолютный импорт
+
+app = FastAPI(title="Task Manager")
+app.include_router(tasks_router)   # «втыкаем удлинитель в розетку»
+```
+
+**Правила архитектуры:**
+
+| Уровень | Что содержит | Что импортирует |
+|---------|--------------|-----------------|
+| `schemas/` | Pydantic-модели | Ничего из проекта |
+| `routers/` | Эндпоинты, бизнес-логика | Только `schemas/` |
+| `main.py` | Сборка приложения | Только `routers/` |
+
+> ⚠️ **Главное правило:** импорты идут строго **снизу вверх**. Никогда не импортируйте `app` из `main.py` в роутер — это вызовет круговую зависимость.
