@@ -9,8 +9,9 @@
 | [io](io.md#io) | Работа с потоками данных |
 | shelve |  |
 | time & datetime |  |
-| string |  | 
+| [string](string.md#-модуль-string-в-python) | Константы и классы для работы с текстом | 
 | pathlib |  |
+| joblib |  |
 | logging |  |
 | re |  |
 | html |  |
