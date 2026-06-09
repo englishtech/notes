@@ -23,7 +23,7 @@ pip freeze > requirements.txt
 Связать локальный и удаленный репозиторий. Подключение к github.com уже должно быть настроено. Для подключения по ssh:
 ```bash
 git branch -M main
-git remote add origin git@github.com:пользователь_github/название_репозитория.git
+git remote add origin git@github.com:пользователь/название_репозитория.git
 ```
 Добавить файлы в индекс и commit:
 ```bash
