@@ -9,7 +9,7 @@
 [Загрузка файлов проекта на VPS-сервер](linux/bot-deploy-to-vps.md#загрузка-файлов-проекта-на-vps-сервер)  
 [Запуск проекта на VPS-сервере](linux/bot-deploy-to-vps.md#деплой-проекта-на-vps-сервере)  
 [Команды systemd для бота](linux/bot-deploy-to-vps.md#команды-systemd)  
-
+[Веб-сервер ngnix](linux/nginx.md#nginx--краткая-памятка)  
 
 ## [Python](python/README.md)
 **Проекты**  
