@@ -27,6 +27,7 @@
 [Markdown](cheatsheets/markdown.md#шпаргалка-по-markdown)  
 [GIT Alias](cheatsheets/git-alias-cheatsheet.md#git-alias-быстрый-коммит-и-пуш-одной-командой)  
 [GIT Conventional Commits](cheatsheets/conventional-commits-cheatsheet.md#conventional-commits-cheatsheet)  
+[SSH](cheatsheets/ssh.md#ssh-подключение-по-ключам)  
 
 ## VPS
 Yet to come...
