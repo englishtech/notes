@@ -8,6 +8,7 @@
 |-------------|-------------|
 | [io](io.md#io) | Работа с потоками данных |
 | shelve |  |
+| [subprocess](subprocess.md#subprocess) | Запуск внешних программ и скриптов из Python |
 | time & datetime |  |
 | [string](string.md#-модуль-string-в-python) | Константы и классы для работы с текстом | 
 | pathlib |  |
