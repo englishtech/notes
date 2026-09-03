@@ -13,7 +13,7 @@
 | [string](string.md#-модуль-string-в-python) | Константы и классы для работы с текстом | 
 | pathlib |  |
 | joblib |  |
-| logging |  |
+| [logging](logging.md#библиотека-logging) | Модуль для записи событий приложения: ошибки, отладка, аудит |
 | re |  |
 | html |  |
 
